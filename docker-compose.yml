@@ -1,0 +1,29 @@
+version: '3'
+services:
+  qo-candidate-salaries-db:
+    image: mysql:8
+    container_name: qo-candidate-salaries-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_PASSWORD: 1337
+      MYSQL_USER: godlike
+      MYSQL_ROOT_PASSWORD: 1337
+      MYSQL_ROOT_USER: root
+      MYSQL_DATABASE: qo_candidate_salaries
+    networks:
+      - qo-candidate-salaries-network
+  qo-candidate-salaries-redis:
+    image: redis
+    container_name: qo-candidate-salaries-redis
+    tty: true
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - qo-candidate-salaries-network
+networks:
+  qo-candidate-salaries-network:
+    driver: bridge
